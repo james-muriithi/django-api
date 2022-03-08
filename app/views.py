@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 
 from app.models import News
+from app.permissions import IsAdmin
 from app.serializer import NewsSerializer
 
 # Create your views here.
@@ -15,6 +16,8 @@ def index(request):
 
 
 class NewsList(APIView):
+    permission_classes = (IsAdmin,)
+
     def get(self, request):
         news = News.objects.all()
         serializers = NewsSerializer(news, many=True)
